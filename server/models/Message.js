@@ -12,8 +12,8 @@ const msg = new mongoose.Schema({
     ref: "User",
   },
   message: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: String,
     required: true,
   },
 });
-module.exports = model.mongoose("Message", msg);
+module.exports = mongoose.model("Message", msg);

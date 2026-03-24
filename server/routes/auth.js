@@ -4,10 +4,12 @@ const router = express.Router();
 const User = require("../models/Users");
 // ✅ import User model
 const jwt = require("jsonwebtoken");
+const vjwt = require("../middleware/verifyToken");
 require("dotenv").config();
-
+// register route
 router.post("/register", async (req, res) => {
   const { username, email, password } = req.body;
+  console.log(req.body);
   try {
     const exist = await User.findOne({ email });
     if (exist) return res.status(400).json({ message: "User already exists" });
@@ -20,13 +22,17 @@ router.post("/register", async (req, res) => {
     console.log("Password hashed successfully", hash);
     res.status(201).json({ message: "User registered successfully" });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: "Server error" });
   }
 });
 
+// login route
+
 router.post("/login", async (req, res) => {
-  const { username, email, password } = req.body;
-  const exist_user = await User.findOne({ username });
+  const { email, password } = req.body;
+  const exist_user = await User.findOne({ email });
+  console.log(req.body);
 
   if (exist_user) {
     try {
@@ -35,10 +41,11 @@ router.post("/login", async (req, res) => {
         console.log("User verified");
 
         const token = jwt.sign(
-          { id: exist_user._id, username, email },
-          process.env.SECRET_KEY, //token asigned to logged i used
+          { id: exist_user._id, email },
+          process.env.SECRET_KEY, //token asigned to logged in used
         );
         res.json({ token, Message: "User login success" });
+        console.log(token);
       } else {
         return res.status(401).json({ message: "Invalid credentials" });
       }
@@ -49,4 +56,20 @@ router.post("/login", async (req, res) => {
     return res.status(401).json({ message: "Invalid credentials" });
   }
 });
+
+//user list route
+
+router.get("/users", vjwt, async (req, res) => {
+  try {
+    const users = await User.find(
+      { _id: { $ne: req.user.id } }, // filter → exclude me
+      { password: 0 },
+    );
+    res.json(users);
+  } catch (error) {
+    console.log("Error fetching users");
+    res.status(400).json({ message: "Error fetching users" });
+  }
+});
+
 module.exports = router;
