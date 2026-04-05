@@ -44,7 +44,11 @@ router.post("/login", async (req, res) => {
           { id: exist_user._id, email },
           process.env.SECRET_KEY, //token asigned to logged in used
         );
-        res.json({ token, Message: "User login success" });
+        res.json({
+          token,
+          Message: "User login success",
+          user_id: exist_user._id,
+        });
         console.log(token);
       } else {
         return res.status(401).json({ message: "Invalid credentials" });

@@ -10,7 +10,7 @@ function Login() {
   const navigate = useNavigate();
 
   //login request this will recieve a access key
-  //storing that access key to loacl storeage of browser
+  //storing that access key to loacl storage of browser
   const handleclik = async () => {
     try {
       let res = await axios.post(
@@ -22,6 +22,7 @@ function Login() {
       );
 
       localStorage.setItem("token", res.data.token);
+      localStorage.setItem("user_id", res.data.user_id);
       setres(res.data);
 
       navigate("/chat");

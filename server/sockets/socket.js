@@ -16,10 +16,11 @@ const initsocket = (io) => {
         rec_id: data.rec_id,
         message: data.message,
       });
+      console.log(newMessage);
       await newMessage.save();
 
       if (rec_sock_id) {
-        io.to(rec_sock_id).emit("recieve_message", {
+        io.to(rec_sock_id).emit("receive_message", {
           sender_id: data.sender_id,
           message: data.message,
         });

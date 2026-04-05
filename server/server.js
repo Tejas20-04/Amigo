@@ -12,6 +12,8 @@ app.use(express.json());
 // routes
 const authRoutes = require("./routes/auth");
 app.use("/api/auth/", authRoutes);
+const msgRoutes = require("./routes/messages");
+app.use("/api/msg", msgRoutes);
 
 // mongodb
 mongoose
