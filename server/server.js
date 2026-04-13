@@ -8,9 +8,15 @@ require("./redis/redisclient");
 
 const app = express();
 
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://amigo-nu-eight.vercel.app",
+  "https://amigo-git-main-tejas20-04s-projects.vercel.app",
+];
+
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://amigo-nu-eight.vercel.app"],
+    origin: allowedOrigins,
     credentials: true,
   }),
 );
@@ -33,10 +39,7 @@ mongoose
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
   cors: {
-    origin: [
-      "http://localhost:5173",
-      "https://amigo-dctxtvef0-tejas20-04s-projects.vercel.app/",
-    ],
+    origin: allowedOrigins,
     methods: ["GET", "POST"],
   },
 });
