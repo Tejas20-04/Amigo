@@ -1,6 +1,4 @@
 const mongoose = require("mongoose");
-const { number } = require("motion");
-
 const userSchema = new mongoose.Schema(
   {
     username: {
