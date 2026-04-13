@@ -33,7 +33,10 @@ mongoose
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
   cors: {
-    origin: ["http://localhost:5173", "https://amigo-nu-eight.vercel.app"],
+    origin: [
+      "http://localhost:5173",
+      "https://amigo-dctxtvef0-tejas20-04s-projects.vercel.app/",
+    ],
     methods: ["GET", "POST"],
   },
 });
