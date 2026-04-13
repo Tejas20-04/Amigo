@@ -5,8 +5,16 @@ const { createServer } = require("http");
 const { Server } = require("socket.io");
 require("dotenv").config();
 require("./redis/redisclient");
+
 const app = express();
-app.use(cors());
+
+app.use(
+  cors({
+    origin: ["http://localhost:5173", "https://amigo-nu-eight.vercel.app"],
+    credentials: true,
+  }),
+);
+
 app.use(express.json());
 
 // routes
@@ -25,15 +33,15 @@ mongoose
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: ["http://localhost:5173", "https://amigo-nu-eight.vercel.app"],
     methods: ["GET", "POST"],
   },
 });
 
-// socket events will go here
+// socket events
 const initsocket = require("./sockets/socket");
 initsocket(io);
-// use httpServer instead of app to listen
+
 httpServer.listen(process.env.PORT, () => {
   console.log(`Amigo running on port ${process.env.PORT}`);
 });
