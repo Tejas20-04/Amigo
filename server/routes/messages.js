@@ -28,7 +28,7 @@ router.get("/user_msg/:otherUserId", vjwt, async (req, res) => {
 router.get("/onusers", vjwt, async (req, res) => {
   try {
     const keys = await client.keys("online:*");
-    const onlineIds = keys.map((key) => key.replace("online:", "")); // ✅ strip prefix
+    const onlineIds = keys.map((key) => key.replace("online:", "")); // strip prefix
     res.json(onlineIds);
   } catch (error) {
     console.log("Error fetching online status");
